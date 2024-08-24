@@ -198,6 +198,59 @@ select:focus {
   background-color: #2a5a8a;
 }
 
+/* New styles for admin panel and mode toggle */
+
+.mode-toggle {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: var(--primary-color);
+  color: var(--button-text);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.mode-toggle:hover {
+  background-color: var(--hover-color);
+}
+
+.admin-panel {
+  margin-top: 2rem;
+}
+
+.admin-panel h2 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.admin-panel input[type="text"],
+.admin-panel select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.question-form {
+  background-color: #f0f0f0;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.dark-theme .question-form {
+  background-color: #1f4068;
+}
+
+.admin-panel button {
+  margin-right: 0.5rem;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -208,9 +261,9 @@ select:focus {
     padding: 1.5rem;
   }
   
-  .theme-toggle {
+  .theme-toggle,
+  .mode-toggle {
     top: 0.5rem;
-    right: 0.5rem;
   }
 }
 
