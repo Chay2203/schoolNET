@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
-const quizData = {
+const initialQuizData = {
   indianCinema: [
     {
       question: "In 'Sahoo', what is the name of the fictional city where much of the action takes place?",
@@ -44,7 +44,6 @@ const quizData = {
       correctAnswer: 3,
       type: "single"
     },
-    // Questions related to Kalki 2989D
     {
       question: "Who is the director of 'Kalki 2989D'?",
       choices: ["Nag Ashwin", "Rajamouli", "Prashanth Neel", "S. S. Rajamouli"],
@@ -84,6 +83,86 @@ const quizData = {
   ],
 };
 
+const AdminPanel = ({ addNewQuiz }) => {
+  const [newQuizName, setNewQuizName] = useState('');
+  const [newQuizQuestions, setNewQuizQuestions] = useState([]);
+
+  const addQuestion = () => {
+    setNewQuizQuestions([...newQuizQuestions, {
+      question: '',
+      choices: ['', '', '', ''],
+      correctAnswer: 0,
+      type: 'single'
+    }]);
+  };
+
+  const updateQuestion = (index, field, value) => {
+    const updatedQuestions = [...newQuizQuestions];
+    updatedQuestions[index][field] = value;
+    setNewQuizQuestions(updatedQuestions);
+  };
+
+  const submitNewQuiz = () => {
+    if (newQuizName && newQuizQuestions.length > 0) {
+      addNewQuiz(newQuizName, newQuizQuestions);
+      setNewQuizName('');
+      setNewQuizQuestions([]);
+    }
+  };
+
+  return (
+    <div className="admin-panel">
+      <h2>Create New Quiz</h2>
+      <input
+        type="text"
+        value={newQuizName}
+        onChange={(e) => setNewQuizName(e.target.value)}
+        placeholder="Quiz Name"
+      />
+      {newQuizQuestions.map((q, index) => (
+        <div key={index} className="question-form">
+          <input
+            type="text"
+            value={q.question}
+            onChange={(e) => updateQuestion(index, 'question', e.target.value)}
+            placeholder="Question"
+          />
+          {q.choices.map((choice, choiceIndex) => (
+            <input
+              key={choiceIndex}
+              type="text"
+              value={choice}
+              onChange={(e) => {
+                const newChoices = [...q.choices];
+                newChoices[choiceIndex] = e.target.value;
+                updateQuestion(index, 'choices', newChoices);
+              }}
+              placeholder={`Choice ${choiceIndex + 1}`}
+            />
+          ))}
+          <select
+            value={q.correctAnswer}
+            onChange={(e) => updateQuestion(index, 'correctAnswer', parseInt(e.target.value))}
+          >
+            {q.choices.map((_, i) => (
+              <option key={i} value={i}>Correct Answer: Choice {i + 1}</option>
+            ))}
+          </select>
+          <select
+            value={q.type}
+            onChange={(e) => updateQuestion(index, 'type', e.target.value)}
+          >
+            <option value="single">Single Choice</option>
+            <option value="multiple">Multiple Choice</option>
+            <option value="boolean">True/False</option>
+          </select>
+        </div>
+      ))}
+      <button onClick={addQuestion}>Add Question</button>
+      <button onClick={submitNewQuiz}>Create Quiz</button>
+    </div>
+  );
+};
 
 function App() {
   const [currentQuiz, setCurrentQuiz] = useState(null);
@@ -93,6 +172,8 @@ function App() {
   const [result, setResult] = useState('');
   const [showSummary, setShowSummary] = useState(false);
   const [darkTheme, setDarkTheme] = useState(false);
+  const [userMode, setUserMode] = useState('USER');
+  const [quizData, setQuizData] = useState(initialQuizData);
 
   useEffect(() => {
     document.body.className = darkTheme ? 'dark-theme' : '';
@@ -169,6 +250,17 @@ function App() {
     setDarkTheme(prev => !prev);
   };
 
+  const toggleUserMode = () => {
+    setUserMode(prevMode => prevMode === 'USER' ? 'ADMIN' : 'USER');
+  };
+
+  const addNewQuiz = (quizName, questions) => {
+    setQuizData(prevData => ({
+      ...prevData,
+      [quizName]: questions
+    }));
+  };
+
   const arraysEqual = (arr1, arr2) => {
     if (arr1.length !== arr2.length) return false;
     for (let i = 0; i < arr1.length; i++) {
@@ -177,7 +269,6 @@ function App() {
     return true;
   };
 
-  
   const renderQuiz = () => {
     if (!currentQuiz) return null;
     
@@ -214,22 +305,33 @@ function App() {
         <button className="theme-toggle" onClick={toggleTheme}>
           {darkTheme ? '☀️' : '🌙'}
         </button>
-        {!currentQuiz && !showSummary && (
-          <div className="quiz-selection">
-            <h2>Select a Quiz</h2>
-            <select onChange={startQuiz}>
-              <option value="">Choose a Quiz</option>
-              <option value="indianCinema">PraBOSS Cult Fans Test</option>
-            </select>
-          </div>
-        )}
-        {currentQuiz && !showSummary && renderQuiz()}
-        {showSummary && (
-          <div className="summary">
-            <h2>Quiz Summary</h2>
-            <p>Your final score: <span className="score">{score}</span> out of {currentQuiz.length}</p>
-            <button className="restart-btn" onClick={restartQuiz}>Restart Quiz</button>
-          </div>
+        <button className="mode-toggle" onClick={toggleUserMode}>
+          {userMode === 'USER' ? 'Switch to ADMIN' : 'Switch to USER'}
+        </button>
+        {userMode === 'ADMIN' ? (
+          <AdminPanel addNewQuiz={addNewQuiz} />
+        ) : (
+          <>
+            {!currentQuiz && !showSummary && (
+              <div className="quiz-selection">
+                <h2>Select a Quiz</h2>
+                <select onChange={startQuiz}>
+                  <option value="">Choose a Quiz</option>
+                  {Object.keys(quizData).map(quizName => (
+                    <option key={quizName} value={quizName}>{quizName}</option>
+                  ))}
+                </select>
+              </div>
+            )}
+            {currentQuiz && !showSummary && renderQuiz()}
+            {showSummary && (
+              <div className="summary">
+                <h2>Quiz Summary</h2>
+                <p>Your final score: <span className="score">{score}</span> out of {currentQuiz.length}</p>
+                <button className="restart-btn" onClick={restartQuiz}>Restart Quiz</button>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
