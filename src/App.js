@@ -63,12 +63,6 @@ const initialQuizData = {
       type: "single"
     },
     {
-      question: "Which of the following actors are part of the cast of 'Kalki 2989D'?",
-      choices: ["Prabhas", "Amitabh Bachchan", "Deepika Padukone", "All of the above"],
-      correctAnswer: 3,
-      type: "multiple"
-    },
-    {
       question: "'Kalki 2989D' is set in which year?",
       choices: ["2023", "2050", "2989", "3000"],
       correctAnswer: 2,
