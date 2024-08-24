@@ -1,0 +1,283 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+  --primary-color: #6a64f1;
+  --secondary-color: #f64c72;
+  --bg-color: #f9f9f9;
+  --text-color: #333;
+  --button-text: white;
+  --hover-color: #5a55d2;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s ease;
+}
+
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.container {
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  width: 100%;
+  max-width: 600px;
+  transition: all 0.3s ease;
+}
+
+.title {
+  text-align: center;
+  color: var(--primary-color);
+  margin-bottom: 2rem;
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+}
+
+.theme-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+}
+
+button {
+  background-color: var(--primary-color);
+  color: var(--button-text);
+  border: none;
+  padding: 12px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: clamp(14px, 2.5vw, 16px);
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 50px;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+button:hover, button:focus {
+  background-color: var(--hover-color);
+  transform: translateY(-2px);
+}
+
+select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  font-size: clamp(14px, 2.5vw, 16px);
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: white;
+  transition: border-color 0.3s;
+}
+
+select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.quiz-container {
+  animation: fadeIn 0.5s;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background-color: var(--primary-color);
+  transition: width 0.5s ease-in-out;
+}
+
+.question {
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+}
+
+.choices {
+  display: grid;
+  gap: 1rem;
+}
+
+.choice {
+  background-color: #f0f0f0;
+  color: var(--text-color);
+  border: 2px solid transparent;
+  text-align: left;
+  transition: all 0.3s;
+  font-size: clamp(14px, 2.5vw, 16px);
+  padding: 10px 20px;
+}
+
+.choice:hover {
+  background-color: #e6e6e6;
+}
+
+.choice.selected {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.submit-btn {
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+.result {
+  margin-top: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: var(--secondary-color);
+  font-size: clamp(14px, 2.5vw, 16px);
+}
+
+.summary {
+  text-align: center;
+}
+
+.score {
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.restart-btn {
+  margin-top: 1rem;
+}
+
+.dark-theme {
+  --bg-color: #1a1a2e;
+  --text-color: #f0f0f0;
+  --primary-color: #6a64f1;
+  --secondary-color: #f64c72;
+  --hover-color: #5a55d2;
+}
+
+.dark-theme .container {
+  background-color: #16213e;
+}
+
+.dark-theme select {
+  background-color: #16213e;
+  color: var(--text-color);
+  border-color: #444;
+}
+
+.dark-theme .choice {
+  background-color: #1f4068;
+}
+
+.dark-theme .choice:hover {
+  background-color: #2a5a8a;
+}
+
+/* New styles for admin panel and mode toggle */
+
+.mode-toggle {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: var(--primary-color);
+  color: var(--button-text);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.mode-toggle:hover {
+  background-color: var(--hover-color);
+}
+
+.admin-panel {
+  margin-top: 2rem;
+}
+
+.admin-panel h2 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.admin-panel input[type="text"],
+.admin-panel select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.question-form {
+  background-color: #f0f0f0;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.dark-theme .question-form {
+  background-color: #1f4068;
+}
+
+.admin-panel button {
+  margin-right: 0.5rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1.5rem;
+  }
+  
+  .theme-toggle,
+  .mode-toggle {
+    top: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .App {
+    padding: 0.5rem;
+  }
+  
+  .container {
+    padding: 1rem;
+    border-radius: 10px;
+  }
+  
+  button, .choice {
+    padding: 10px 15px;
+  }
+}
